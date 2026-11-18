@@ -1,18 +1,23 @@
 ---
-// Reference header (Concept A2). On narrow screens the nav wraps and overflow
-// hides links, as in the reference; there is no hamburger menu in the design.
+// Reference header (Concept A2, Nov 17 update). At 760px and narrower the inline nav hides and a
+// menu button (.k-burger) opens the .k-menu panel; src/scripts/site.js (mountMenu) toggles it.
+// "Join the waitlist" goes to the hero email form: #join on Home, /#join elsewhere.
 const path = Astro.url.pathname;
 const isHome = path === "/";
 const isBlog = path.startsWith("/blog");
+const how = isHome ? "#how" : "/#how";
+const join = isHome ? "#join" : "/#join";
 ---
 
 <header style="position:sticky;top:0;z-index:20;background:rgba(251,248,244,.88);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)">
-  <div style="max-width:1180px;margin:0 auto;padding-left:clamp(16px,4vw,40px);padding-right:clamp(16px,4vw,40px);box-sizing:border-box;display:flex;align-items:center;gap:16px;padding-top:14px;padding-bottom:14px">
+  <div class="k-hd" style="max-width:1180px;margin:0 auto;padding-left:clamp(16px,4vw,40px);padding-right:clamp(16px,4vw,40px);box-sizing:border-box;display:flex;align-items:center;gap:12px;padding-top:14px;padding-bottom:14px">
     <a href={isHome ? "#top" : "/"} aria-label="Krue home" style="display:flex;flex:none"><img src="/assets/logos/krue-wordmark-navy.png" alt="Krue" width="70" height="24" style="display:block;height:24px;width:auto" /></a>
-    <nav aria-label="Main" style="flex:1 1 0;min-width:0;display:flex;flex-wrap:wrap;justify-content:flex-end;align-items:center;column-gap:28px;height:44px;overflow:hidden;font:600 15px/44px var(--font-display)">
-      <a href={isHome ? "#how" : "/#how"} style="text-decoration:none;white-space:nowrap">How it works</a>
+    <nav class="k-nav" aria-label="Main" style="flex:1 1 0;min-width:0;display:flex;flex-wrap:wrap;justify-content:flex-end;align-items:center;column-gap:28px;height:44px;overflow:hidden;font:600 15px/44px var(--font-display)">
+      <a href={how} style="text-decoration:none;white-space:nowrap">How it works</a>
       <a href="/blog/" aria-current={isBlog ? "page" : undefined} class:list={{ "b-cur": isBlog }} style="text-decoration:none;white-space:nowrap">Blog</a>
     </nav>
-    <a href="#start" style="flex:none;text-decoration:none;background:#E0EE40;color:#14325A;font:700 14px/1 var(--font-display);padding:12px 18px;border-radius:999px;white-space:nowrap">Join the waitlist</a>
+    <a href={join} style="flex:none;text-decoration:none;background:#E0EE40;color:#14325A;font:700 14px/1 var(--font-display);padding:12px 18px;border-radius:999px;white-space:nowrap">Join the waitlist</a>
+    <button type="button" class="k-burger" aria-label="Open menu" aria-expanded="false" aria-controls="k-menu"><span></span></button>
   </div>
+  <div class="k-menu" id="k-menu"><nav aria-label="Menu"><a href={how}>How it works</a><a href="/blog/" aria-current={isBlog ? "page" : undefined}>Blog</a></nav></div>
 </header>

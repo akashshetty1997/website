@@ -17,8 +17,17 @@ import ClosingStart from "../components/ClosingStart.astro";
       <p class="h-eyebrow">For complex chronic illness</p>
       <h1 class="h-h1 h-wide">An <span class="k-hl" style="--hl:#C4EBF9">advocate</span> in your pocket</h1>
       <p class="h-intro">For people with large care teams and conditions that lack clear answers. Krue helps you get ready for appointments, keep track of what was said, and create one connected plan across your care.</p>
-      <a class="h-cta" href="#start">Join the waitlist</a>
       <div class="h-row"><span class="h-pill" style="--bg:#E2F5FC;--fg:#1F7FA3;--bgh:#3ABAE8;--fgh:#14325A;">POTS</span><span class="h-pill" style="--bg:#FCE6F0;--fg:#A93E72;--bgh:#E2169E;--fgh:#FFFFFF;">hEDS</span><span class="h-pill" style="--bg:#F4F8D2;--fg:#6E7A0C;--bgh:#E0EE40;--fgh:#14325A;">MCAS</span><span class="h-pill" style="--bg:#FDF0DE;--fg:#9A5E14;--bgh:#F3B258;--fgh:#14325A;">ME/CFS</span><span class="h-pill" style="--bg:#E4EDF8;--fg:#235592;--bgh:#235592;--fgh:#FFFFFF;">Migraine</span><span class="h-pill" style="--bg:#F3E8F4;--fg:#7E4683;--bgh:#B555D9;--fgh:#FFFFFF;">Endometriosis</span><span class="h-pill" style="--bg:#fff;--fg:#14325A;--bgh:#14325A;--fgh:#fff;border:1.5px dashed #9AA3AF;">+ yours</span></div>
+      <div id="join" class="j-wrap">
+        <form class="j-form" novalidate>
+          <label for="j-email" class="j-sr">Email address</label>
+          <input id="j-email" class="j-in" name="email" type="email" autocomplete="email" inputmode="email" placeholder="Your email address" required>
+          <input class="j-hp" name="company" tabindex="-1" autocomplete="off" aria-hidden="true">
+          <button class="j-btn" type="submit">Join the waitlist <span aria-hidden="true">→</span></button>
+        </form>
+        <p class="j-ok" tabindex="-1" role="status"><span class="j-check" aria-hidden="true">✓</span>You’re on the list. We’ll email you when Krue opens up.</p>
+        <p class="j-err" role="alert"></p>
+      </div>
     </div>
   <div class="h-stage h-untangle" data-untangle="c" style="height:440px">
     <svg class="h-svg" viewBox="0 0 1200 440" preserveAspectRatio="none" aria-hidden="true"><path class="h-l" fill="none" stroke="#235592" stroke-width="4" stroke-linecap="round"/><path class="h-l" fill="none" stroke="#7AD1EF" stroke-width="4" stroke-linecap="round"/><path class="h-l" fill="none" stroke="#F290BA" stroke-width="4" stroke-linecap="round"/><path class="h-l" fill="none" stroke="#E0EE40" stroke-width="4" stroke-linecap="round"/><path class="h-l" fill="none" stroke="#F3B258" stroke-width="4" stroke-linecap="round"/><path class="h-l" fill="none" stroke="#90C9B2" stroke-width="4" stroke-linecap="round"/><path class="h-l" fill="none" stroke="#AC72B0" stroke-width="4" stroke-linecap="round"/><path class="h-l" fill="none" stroke="#F68B65" stroke-width="4" stroke-linecap="round"/></svg>

@@ -47,7 +47,7 @@ Copy `.env.example` to `.env` and set the same variables in Netlify.
 
 If either form URL is unset, that pop-up shows an error instead of sending anything.
 
-Any link ending in `#start` or `#waitlist` opens the waitlist pop-up, and any link ending in `#updates` opens the updates pop-up. `krue.io/#waitlist` and `krue.io/#updates` open them on page load.
+The waitlist is the email form in the home hero (`#join`). Every "Join the waitlist" link goes to `#join` (`/#join` from other pages), which scrolls to the form and focuses the email field; old shared links ending in `#waitlist`, `#start` or `#try` land there too. Any link ending in `#updates` opens the updates pop-up, and `krue.io/#updates` opens it on page load. Sign-ups send only the email (the name is sent blank).
 
 ## Blog
 

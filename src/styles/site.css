@@ -38,8 +38,8 @@ details[open] .plus{transform:rotate(45deg)}
 .k-t{transition:stroke 420ms cubic-bezier(0.16,1,0.3,1)}
 .k-hl{background-image:linear-gradient(var(--hl),var(--hl));background-repeat:no-repeat;background-position:0 92%;background-size:100% 34%;padding:0 .06em;transition:background-size 320ms cubic-bezier(0.16,1,0.3,1)}
 h1:hover .k-hl,h2:hover .k-hl{background-size:100% 82%}
-a[href="#start"]{transition:background-color 200ms,transform 200ms cubic-bezier(0.16,1,0.3,1)}
-a[href="#start"]:hover{background-color:#D2E02A !important;transform:translateY(-1px)}
+a[href$="#join"]{transition:background-color 200ms,transform 200ms cubic-bezier(0.16,1,0.3,1)}
+a[href$="#join"]:hover{background-color:#D2E02A !important;transform:translateY(-1px)}
 header nav a,footer a,.k-link{text-decoration:none !important;background-image:linear-gradient(#C8128C,#C8128C);background-repeat:no-repeat;background-position:0 100%;background-size:0 2px;transition:background-size 240ms cubic-bezier(0.16,1,0.3,1),color 200ms}
 header nav a:hover,footer a:hover,.k-link:hover{background-size:100% 2px;color:#14325A !important}
 .k-step{cursor:pointer}
@@ -362,3 +362,52 @@ header nav a:hover,footer a:hover,.k-link:hover{background-size:100% 2px;color:#
 .cc-yes{background:#E0EE40;color:#14325A}
 .cc-yes:hover{background:#D2E02A}
 .cc button:focus-visible{outline:3px solid #235592;outline-offset:3px}
+
+/* ---- Nov 17 update: mobile header menu (all pages) ---- */
+.k-burger{display:none;flex:none;width:44px;height:44px;border:0;border-radius:10px;background:transparent;box-shadow:none;color:#14325A;cursor:pointer;align-items:center;justify-content:center;padding:0;margin-right:-10px}
+.k-burger:hover{color:#235592}
+.k-burger:focus-visible{outline:3px solid #7AD1EF;outline-offset:2px}
+.k-burger span{position:relative;display:block;width:22px;height:2px;border-radius:2px;background:currentColor;transition:background-color 160ms}
+.k-burger span::before,.k-burger span::after{content:"";position:absolute;left:0;width:22px;height:2px;border-radius:2px;background:currentColor;transition:transform 220ms cubic-bezier(0.16,1,0.3,1)}
+.k-burger span::before{transform:translateY(-7px)} .k-burger span::after{transform:translateY(7px)}
+.k-menu-open .k-burger span{background:transparent}
+.k-menu-open .k-burger span::before{transform:rotate(45deg)} .k-menu-open .k-burger span::after{transform:rotate(-45deg)}
+.k-menu{display:none;border-top:1px solid #ECE6DC;background:#FBF8F4;box-shadow:0 14px 28px rgba(20,50,90,.08)}
+.k-menu nav{max-width:1180px;margin:0 auto;padding:8px clamp(16px,4vw,40px) 16px;box-sizing:border-box;display:flex;flex-direction:column}
+.k-menu a{display:block;padding:14px 0;border-bottom:1px solid #ECE6DC;font:700 18px/1.2 var(--font-display);color:#14325A;text-decoration:none}
+.k-menu a:last-child{border-bottom:0}
+.k-menu a[aria-current="page"]{color:#C8128C}
+@media (max-width:760px){
+  header .k-nav{display:none !important}
+  .k-burger{display:flex}
+  .k-menu-open .k-menu{display:block}
+  header .k-hd{justify-content:space-between}
+  header .k-hd > a:first-child{margin-right:auto}
+}
+
+/* ---- Nov 17 update: hero email waitlist form (home, #join) ---- */
+.j-wrap{margin:28px auto 0;width:min(100%,520px)}
+.j-form{display:flex;align-items:center;gap:8px;padding:6px 6px 6px 22px;background:#FFFFFF;border-radius:999px;box-shadow:0 0 0 1px rgba(20,50,90,.08),0 10px 30px rgba(20,50,90,.10);transition:box-shadow 160ms}
+.j-form:focus-within{box-shadow:0 0 0 2px #7AD1EF,0 10px 30px rgba(20,50,90,.10)}
+.j-in{flex:1 1 auto;min-width:0;border:0;outline:none;background:transparent;font:400 17px/1.3 var(--font-body);color:#14325A;padding:12px 0}
+.j-in::placeholder{color:#8A929D}
+.j-in[aria-invalid="true"]{color:#A93E72}
+.j-btn{flex:none;border:0;cursor:pointer;background:#E0EE40;color:#14325A;font:700 16px/1 var(--font-display);padding:16px 22px;border-radius:999px;white-space:nowrap;transition:background-color 200ms,transform 200ms cubic-bezier(0.16,1,0.3,1)}
+.j-btn:hover{background:#D2E02A;transform:translateY(-1px)}
+.j-btn:focus-visible{outline:3px solid #235592;outline-offset:2px}
+.j-btn[disabled]{opacity:.7;cursor:progress;transform:none}
+.j-sr,.j-hp{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.j-err{margin:10px 0 0;font:500 14px/1.4 var(--font-body);color:#A93E72;text-align:center}
+.j-err:empty{display:none}
+.j-fine{margin:12px 0 0;font:400 14px/1.4 var(--font-body);color:#69727F;text-align:center}
+.j-fine a{color:#235592;font-weight:700}
+.j-ok{display:none;margin:0;padding:16px 22px;border-radius:999px;background:#E3F2EC;color:#14325A;font:600 16px/1.4 var(--font-display);text-align:center;outline:none}
+.j-check{display:inline-flex;width:24px;height:24px;margin-right:10px;border-radius:999px;background:#3E7F66;color:#fff;align-items:center;justify-content:center;font-size:14px;vertical-align:-3px}
+.k-joined .j-form,.k-joined .j-fine,.k-joined .j-err{display:none}
+.k-joined .j-ok{display:block}
+@media (max-width:440px){
+  .j-form{flex-direction:column;align-items:stretch;padding:8px;border-radius:24px;gap:6px}
+  .j-in{padding:12px 14px}
+  .j-btn{width:100%}
+  .j-ok{border-radius:20px}
+}

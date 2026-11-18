@@ -1,6 +1,9 @@
 /* Krue site: shared behaviour for every page.
-   - Waitlist pop-up (links ending in #start, #waitlist or #try, or [data-waitlist]). #try is the old site's waitlist anchor, kept so existing links still work
+   - Waitlist: the email form in the home hero (#join, mountJoin). Every "Join the waitlist" link goes to
+     #join (/#join from other pages), which scrolls to the form and focuses the field. Old shared links
+     (#waitlist, #start, and #try from the previous site) land there too.
    - Updates pop-up for investors/partners/press (links ending in #updates, or [data-updates])
+   - Mobile menu: at 760px and narrower the header shows the logo, "Join the waitlist" and a menu button (mountMenu)
    - Touch devices: sections with [data-glow] get .k-awake while on screen (the hover colours) */
 // Endpoints come from build-time env vars (see .env.example). If either is unset, its form shows
 // the error message instead of a fake success, so a misconfigured deploy is visible right away.
@@ -15,8 +18,8 @@ const track = (event, form) => {
 
 // Sends a waitlist sign-up to the live Google Apps Script, using the same JSON contract as the
 // previous site's inline form (the script replies {"ok":true}). Fields the new form no longer
-// asks for (role, beta, help, updates) are sent empty so the Sheet columns stay aligned.
-async function sendWaitlist(name, email) {
+// asks for (name, role, beta, help, updates) are sent empty so the Sheet columns stay aligned.
+async function sendWaitlist(name, email, source = "waitlist-popup") {
   if (!WAITLIST_ENDPOINT) throw new Error("PUBLIC_INTAKE_URL is not set");
   const res = await fetch(WAITLIST_ENDPOINT, {
     method: "POST",
@@ -31,7 +34,7 @@ async function sendWaitlist(name, email) {
       beta: false,
       help: "",
       updates: false,
-      source: "waitlist-popup",
+      source,
       page: location.pathname,
       website: "",
     }),
@@ -48,7 +51,84 @@ async function sendUpdates(fields) {
   await fetch(UPDATES_ENDPOINT, { method: "POST", mode: "no-cors", body: new URLSearchParams(fields) });
 }
 
-// WAITLIST POP-UP: every "Join the waitlist" button (links ending in #start) opens this form.
+// HERO WAITLIST FORM (#join, home page only): email-only sign-up. Every "Join the waitlist" link points to
+// #join: on the home page it scrolls here and focuses the email field; from other pages it loads the home
+// page at #join. Old shared hashes (#waitlist, #start, #try) do the same on load.
+const JOIN_HASHES = ["#join", "#waitlist", "#start", "#try"];
+function mountJoin() {
+  const form = document.querySelector("#join form");
+  if (!form) return () => {};
+  const input = form.elements.email;
+  const err = document.querySelector("#join .j-err");
+  const btn = form.querySelector(".j-btn");
+  const focusForm = (smooth) => {
+    const box = document.getElementById("join");
+    if (!box) return;
+    box.scrollIntoView({ behavior: smooth ? "smooth" : "auto", block: "center" });
+    setTimeout(() => input && input.focus({ preventScroll: true }), smooth ? 450 : 50);
+  };
+  const onClick = (e) => {
+    const a = e.target.closest && e.target.closest('a[href="#join"], a[href$="/#join"]');
+    if (!a) return;
+    e.preventDefault();
+    if (history.replaceState) history.replaceState(null, "", "#join");
+    focusForm(true);
+  };
+  const onSubmit = async (e) => {
+    e.preventDefault();
+    const email = input.value.trim();
+    const ok = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email);
+    input.setAttribute("aria-invalid", String(!ok));
+    if (!ok) { err.textContent = "Please enter a valid email address."; input.focus(); return; }
+    err.textContent = ""; btn.disabled = true; btn.firstChild.nodeValue = "Joining… ";
+    try {
+      // Spam trap: bots that fill the hidden "company" field get the success state, but nothing is sent.
+      if (!form.elements.company.value) await sendWaitlist("", email, "hero-form");
+      track("form_submit_success", "waitlist");
+      document.documentElement.classList.add("k-joined");
+      const done = document.querySelector("#join .j-ok"); done && done.focus();
+    } catch (x) {
+      console.warn("Waitlist sign-up failed:", x && x.message);
+      track("form_submit_error", "waitlist");
+      btn.disabled = false; btn.firstChild.nodeValue = "Join the waitlist ";
+      err.textContent = "Something went wrong. Please try again, or email community@krue.io.";
+    }
+  };
+  // Also when only the hash changes (an old link pasted into a tab already on the home page).
+  const onHash = () => { if (JOIN_HASHES.includes(location.hash)) focusForm(true); };
+  document.addEventListener("click", onClick);
+  form.addEventListener("submit", onSubmit);
+  window.addEventListener("hashchange", onHash);
+  if (JOIN_HASHES.includes(location.hash)) setTimeout(() => focusForm(false), 300);
+  return () => { document.removeEventListener("click", onClick); form.removeEventListener("submit", onSubmit); window.removeEventListener("hashchange", onHash); };
+}
+
+// MOBILE MENU: at 760px and narrower the header shows only the logo, "Join the waitlist" and a menu button.
+// The button toggles html.k-menu-open, which shows the dropdown panel (.k-menu). Closes on link click, Esc,
+// outside click or widening past 760px.
+function mountMenu() {
+  const root = document.documentElement;
+  const btn = () => document.querySelector(".k-burger");
+  const set = (open) => {
+    root.classList.toggle("k-menu-open", open);
+    const b = btn(); if (b) { b.setAttribute("aria-expanded", String(open)); b.setAttribute("aria-label", open ? "Close menu" : "Open menu"); }
+  };
+  const onClick = (e) => {
+    if (e.target.closest && e.target.closest(".k-burger")) { set(!root.classList.contains("k-menu-open")); return; }
+    if (!root.classList.contains("k-menu-open")) return;
+    if (e.target.closest && (e.target.closest(".k-menu a") || !e.target.closest("header"))) set(false);
+  };
+  const onKey = (e) => { if (e.key === "Escape" && root.classList.contains("k-menu-open")) { set(false); const b = btn(); b && b.focus(); } };
+  const mq = window.matchMedia("(min-width: 761px)");
+  const onMq = () => { if (mq.matches) set(false); };
+  document.addEventListener("click", onClick);
+  document.addEventListener("keydown", onKey);
+  mq.addEventListener ? mq.addEventListener("change", onMq) : mq.addListener(onMq);
+  return () => { document.removeEventListener("click", onClick); document.removeEventListener("keydown", onKey); mq.removeEventListener && mq.removeEventListener("change", onMq); set(false); };
+}
+
+// WAITLIST POP-UP (name + email): no link opens it any more; the hero form replaced it. It stays only because
+// the "Get updates" pop-up reuses its styles. It still opens from an element marked [data-waitlist-modal].
 function mountWaitlist() {
   if (document.getElementById("wl-root")) return () => {};
   const css = `
@@ -141,7 +221,7 @@ function mountWaitlist() {
     if (lastFocus && lastFocus.focus) lastFocus.focus();
   };
   const onDocClick = (e) => {
-    const a = e.target.closest && e.target.closest('a[href$="#start"], a[href$="#waitlist"], a[href$="#try"], [data-waitlist]');
+    const a = e.target.closest && e.target.closest('[data-waitlist-modal]');
     if (a) { e.preventDefault(); open(); return; }
     if (e.target.closest && e.target.closest("[data-wl-close]") && root.contains(e.target)) close();
   };
@@ -180,7 +260,6 @@ function mountWaitlist() {
   });
   document.addEventListener("click", onDocClick, true);
   document.addEventListener("keydown", onKey);
-  if (location.hash === "#waitlist" || location.hash === "#try") setTimeout(open, 300);
   return () => { document.removeEventListener("click", onDocClick, true); document.removeEventListener("keydown", onKey); root.remove(); document.documentElement.style.overflow = ""; };
 }
 
@@ -309,6 +388,8 @@ function mountUpdates() {
 const boot = () => {
   mountWaitlist();
   mountUpdates();
+  mountJoin();
+  mountMenu();
   if (window.matchMedia && matchMedia("(hover: none)").matches && "IntersectionObserver" in window) {
     const io = new IntersectionObserver(es => es.forEach(e => e.target.classList.toggle("k-awake", e.isIntersecting)), { threshold: 0.35 });
     document.querySelectorAll("[data-glow]").forEach(el => io.observe(el));
