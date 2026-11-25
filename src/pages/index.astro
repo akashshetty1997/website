@@ -14,16 +14,14 @@ import ClosingStart from "../components/ClosingStart.astro";
   <main>
   <section id="top" class="h-sec h-hero">
   <div class="h-copy">
-      <p class="h-eyebrow">For complex chronic illness</p>
       <h1 class="h-h1 h-wide">An <span class="k-hl" style="--hl:#C4EBF9">advocate</span> in your pocket</h1>
-      <p class="h-intro">For people with large care teams and conditions that lack clear answers. Krue helps you get ready for appointments, keep track of what was said, and create one connected plan across your care.</p>
-      <div class="h-row"><span class="h-pill" style="--bg:#E2F5FC;--fg:#1F7FA3;--bgh:#3ABAE8;--fgh:#14325A;">POTS</span><span class="h-pill" style="--bg:#FCE6F0;--fg:#A93E72;--bgh:#E2169E;--fgh:#FFFFFF;">hEDS</span><span class="h-pill" style="--bg:#F4F8D2;--fg:#6E7A0C;--bgh:#E0EE40;--fgh:#14325A;">MCAS</span><span class="h-pill" style="--bg:#FDF0DE;--fg:#9A5E14;--bgh:#F3B258;--fgh:#14325A;">ME/CFS</span><span class="h-pill" style="--bg:#E4EDF8;--fg:#235592;--bgh:#235592;--fgh:#FFFFFF;">Migraine</span><span class="h-pill" style="--bg:#F3E8F4;--fg:#7E4683;--bgh:#B555D9;--fgh:#FFFFFF;">Endometriosis</span><span class="h-pill" style="--bg:#fff;--fg:#14325A;--bgh:#14325A;--fgh:#fff;border:1.5px dashed #9AA3AF;">+ yours</span></div>
+      <p class="h-intro" style="font-size: 17px">Krue is made for complex chronic illness. It helps you get ready for appointments, keeps track of what was said, and creates one connected plan across your care.</p>
       <div id="join" class="j-wrap">
         <form class="j-form" novalidate>
           <label for="j-email" class="j-sr">Email address</label>
           <input id="j-email" class="j-in" name="email" type="email" autocomplete="email" inputmode="email" placeholder="Your email address" required>
           <input class="j-hp" name="company" tabindex="-1" autocomplete="off" aria-hidden="true">
-          <button class="j-btn" type="submit">Join the waitlist <span aria-hidden="true">→</span></button>
+          <button class="j-btn" type="submit">Join the waitlist</button>
         </form>
         <p class="j-ok" tabindex="-1" role="status"><span class="j-check" aria-hidden="true">✓</span>You’re on the list. We’ll email you when Krue opens up.</p>
         <p class="j-err" role="alert"></p>
@@ -52,8 +50,14 @@ import ClosingStart from "../components/ClosingStart.astro";
   </div>
 </section>
 
+  <!-- WHO IT'S FOR: one statement + the condition pills, its own band below the hero -->
+  <section class="c-band" aria-label="Who Krue is for">
+    <p class="c-line">Built by, with, and for people living with complex chronic illness</p>
+    <div class="h-row c-pills"><span class="h-pill" style="--bg:#E2F5FC;--fg:#1F7FA3;--bgh:#3ABAE8;--fgh:#14325A;">POTS</span><span class="h-pill" style="--bg:#FCE6F0;--fg:#A93E72;--bgh:#E2169E;--fgh:#FFFFFF;">hEDS</span><span class="h-pill" style="--bg:#F4F8D2;--fg:#6E7A0C;--bgh:#E0EE40;--fgh:#14325A;">MCAS</span><span class="h-pill" style="--bg:#FDF0DE;--fg:#9A5E14;--bgh:#F3B258;--fgh:#14325A;">ME/CFS</span><span class="h-pill" style="--bg:#E4EDF8;--fg:#235592;--bgh:#235592;--fgh:#FFFFFF;">Migraine</span><span class="h-pill" style="--bg:#fff;--fg:#14325A;--bgh:#14325A;--fgh:#fff;border:1.5px dashed #9AA3AF;">+ others</span></div>
+  </section>
+
   <!-- HOW IT WORKS: one pinned phone, steps advance on scroll, a rainbow rail -->
-  <section id="how" style="max-width:1180px;margin:0 auto;padding-left:clamp(16px,4vw,40px);padding-right:clamp(16px,4vw,40px);box-sizing:border-box;padding-top:clamp(80px,11vw,160px);padding-bottom:clamp(56px,7vw,96px)">
+  <section id="how" style="max-width:1180px;margin:0 auto;padding-left:clamp(16px,4vw,40px);padding-right:clamp(16px,4vw,40px);box-sizing:border-box;padding-top:clamp(48px,7vw,104px);padding-bottom:clamp(56px,7vw,96px)">
     <p style="margin:0 0 16px;font:700 13px/1 var(--font-display);letter-spacing:.16em;text-transform:uppercase;color:#69727F">How it works</p>
     <h2 style="margin:0;font:800 clamp(34px,4.6vw,58px)/1.04 var(--font-display);letter-spacing:-0.035em;color:#14325A;text-wrap:balance;max-width:18ch">Walk in prepared. Walk out <span class="k-hl" style="--hl:#CFE8DD">with a plan.</span></h2>
     <div class="k-how-row" style="display:flex;flex-wrap:wrap;gap:clamp(40px,6vw,96px);margin-top:clamp(32px,5vw,56px)">

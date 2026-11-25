@@ -13,7 +13,7 @@ export const GET: APIRoute = async ({ site }) => {
 
   const body = `# Krue
 
-> An advocate in your pocket. Krue is for people with complex chronic illness, large care teams, and conditions that lack clear answers. It helps you get ready for appointments, keep track of what was said, and create one connected plan across your care.
+> An advocate in your pocket. Krue is made for complex chronic illness, built by, with, and for people living with it. It helps you get ready for appointments, keeps track of what was said, and creates one connected plan across your care.
 
 Krue does not diagnose or give medical advice and is not an emergency service. In a medical emergency, call 911. Krue is in beta; people can join the waitlist on the homepage.
 

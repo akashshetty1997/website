@@ -80,7 +80,7 @@ function mountJoin() {
     const ok = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email);
     input.setAttribute("aria-invalid", String(!ok));
     if (!ok) { err.textContent = "Please enter a valid email address."; input.focus(); return; }
-    err.textContent = ""; btn.disabled = true; btn.firstChild.nodeValue = "Joining… ";
+    err.textContent = ""; btn.disabled = true; btn.firstChild.nodeValue = "Joining…";
     try {
       // Spam trap: bots that fill the hidden "company" field get the success state, but nothing is sent.
       if (!form.elements.company.value) await sendWaitlist("", email, "hero-form");
@@ -90,7 +90,7 @@ function mountJoin() {
     } catch (x) {
       console.warn("Waitlist sign-up failed:", x && x.message);
       track("form_submit_error", "waitlist");
-      btn.disabled = false; btn.firstChild.nodeValue = "Join the waitlist ";
+      btn.disabled = false; btn.firstChild.nodeValue = "Join the waitlist";
       err.textContent = "Something went wrong. Please try again, or email community@krue.io.";
     }
   };
